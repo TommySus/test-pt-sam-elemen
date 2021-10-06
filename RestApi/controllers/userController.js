@@ -126,6 +126,29 @@ class UserController {
             next(error)
         })
     }
+
+    static getAllUser (req, res, next) {
+        User.findAll()
+        .then(data => {
+            let obj = []
+            for (let i = 0; i < data.length; i++) {
+                obj.push({
+                    id:data[i].id,
+                    username: data[i].username, 
+                    email: data[i].email,
+                    first_name: data[i].first_name,
+                    last_name: data[i].last_name,
+                    address: data[i].address,
+                    city: data[i].city,
+                    province: data[i].province,
+                })
+            }
+            res.status(200).json(obj)
+        })
+        .catch(error => {
+            next(error)
+        })
+    }
 }
 
 module.exports = UserController
