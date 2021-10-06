@@ -149,6 +149,35 @@ class UserController {
             next(error)
         })
     }
+
+    static getUserById (req, res, next) {
+        User.findOne({where: {id: req.params.id}})
+        .then(data => {
+            if (data) {
+                let obj = []
+                obj.push({
+                    id:data.id,
+                    username: data.username, 
+                    email: data.email,
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    address: data.address,
+                    city: data.city,
+                    province: data.province,
+                })
+                res.status(200).json(obj)
+            } else {
+                throw {
+                    status: 404,
+                    message: 'User tidak di temukan!'
+                }
+            }
+            
+        })
+        .catch(error => {
+            next(error)
+        })
+    }
 }
 
 module.exports = UserController
