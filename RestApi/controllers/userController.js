@@ -95,13 +95,30 @@ class UserController {
                 .catch(error => {
                     throw {
                         status: 404,
-                        message: 'User not found'
+                        message: 'User tidak di temukan!'
                     }
                 }) 
             } else {
                 throw {
                     status: 404,
-                    message: 'User not found'
+                    message: 'User tidak di temukan!'
+                }
+            }
+        })
+        .catch(error => {
+            next(error)
+        })
+    }
+
+    static deleteUser (req, res, next) {
+        User.destroy({where: {id: req.params.id}})
+        .then(data => {
+            if (data) {
+                res.status(200).json({message: `berhasil menghapus User dengan ID ${req.params.id}`})
+            } else {
+                throw {
+                    status: 404,
+                    message: 'User tidak di temukan!'
                 }
             }
         })
